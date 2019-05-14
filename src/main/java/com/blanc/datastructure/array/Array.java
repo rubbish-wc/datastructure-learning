@@ -177,7 +177,7 @@ public class Array<E> {
         size--;
         //loitering objects 本身以及没有用了,但是强引用,垃圾回收暂时回收不了,所以这个手动设null,这个不是memoryleak;迟早也会被add方法替换掉
         data[size] = null;
-        if (size == getCapacity() / 4){
+        if (size == getCapacity() / 4 && data.length / 2 !=0){
             resize(getCapacity() / 4);
         }
         return ret;
