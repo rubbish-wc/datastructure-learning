@@ -7,8 +7,14 @@ package com.blanc.datastructure.linkedlist;
  */
 public class LinkedList<E> {
 
+    /**
+     * 链表头节点
+     */
     private Node head;
 
+    /**
+     * 链表中的数量size
+     */
     private int size;
 
     /**
@@ -17,10 +23,14 @@ public class LinkedList<E> {
      */
     private class Node{
 
-        //设计成public是方便让外部类直接使用,因为这个内部类本身是private的,所以不需要担心安全问题
+        /**
+         * 节点中保存的元素
+         */
         public E e;
 
-        //保存下一个node
+        /**
+         * 下一个节点
+         */
         public Node next;
 
         /**
@@ -62,7 +72,10 @@ public class LinkedList<E> {
         size = 0;
     }
 
-    //获取链表中元素的个数
+    /**
+     * 获取链表中元素的个数
+     * @return
+     */
     public int getSize(){
         return size;
     }
