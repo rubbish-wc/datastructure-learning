@@ -1,6 +1,10 @@
 package com.blanc.datastructure.tree;
 
-import sun.tools.tree.InstanceOfExpression;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * 二分搜索树
@@ -14,10 +18,19 @@ public class BST<E extends Comparable<E>> {
      */
     private class Node{
 
+        /**
+         * 节点内容
+         */
         public E e;
 
+        /**
+         * 引用保存左节点
+         */
         public Node left;
 
+        /**
+         * 引用保存右节点
+         */
         public Node right;
 
         public Node(E e){
@@ -110,8 +123,8 @@ public class BST<E extends Comparable<E>> {
 
     /**
      * 看以node为根的二分搜索树中是否包含元素e,递归算法
-     * @param node
-     * @param e
+     * @param node 根节点
+     * @param e 元素
      * @return
      */
     private boolean contains(Node node , E e){
@@ -149,6 +162,123 @@ public class BST<E extends Comparable<E>> {
         System.out.println(node.e);
         preOrder(node.left);
         preOrder(node.right);
+    }
+
+    /**
+     * 非递归的方式完成前序遍历(使用栈)
+     * 二分搜索树的非递归实现,只能借助栈,比递归实现复杂的多
+     * @param node
+     */
+    private void preOrderNR(Node node){
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()){
+            Node cur = stack.pop();
+            System.out.println(cur.e);
+            if (cur.right != null) {
+                stack.push(cur.right);
+            }
+            if (cur.left != null) {
+                stack.push(cur.left);
+            }
+        }
+    }
+
+    /**
+     * 二分搜索树的层序遍历(广度优先遍历)
+     */
+    public void levelOrder(){
+        //借用链表实现的队列去实现
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()){
+            //获取当前要出队的元素
+            Node cur = queue.remove();
+            System.out.println(cur.e);
+
+            if (cur.left != null){
+                queue.add(cur.left);
+            }
+            if (cur.right != null){
+                queue.add(cur.right);
+            }
+        }
+    }
+
+    /**
+     * 寻找二分搜索树的最小元素
+     * @return
+     */
+    public E minimum(){
+        if (size == 0){
+            throw new IllegalArgumentException("BST is empty");
+        }
+        return minimum(root).e;
+    }
+
+    /**
+     * 返回以node为节点的二分搜索树的最小值所在的节点
+     * @param node
+     * @return
+     */
+    private Node minimum(Node node){
+        //终止条件
+        if (node.left == null){
+            return node;
+        }else {
+            return node.left;
+        }
+    }
+
+    /**
+     * 寻找二分搜索树中最大的元素
+     * @return
+     */
+    public E maximum(){
+        if (size == 0){
+            throw new IllegalArgumentException("BST is empty");
+        }
+        return maximum(root).e;
+    }
+
+    /**
+     * 寻找以node为root的二分搜索树的最大的元素
+     * @param node
+     * @return
+     */
+    private Node maximum(Node node){
+        if (node.right == null){
+            return node;
+        }else {
+            return node.right;
+        }
+    }
+
+    /**
+     * 删除二分搜索树中的最小元素,并返回
+     * @return
+     */
+    public E removeMin(){
+        E ret = minimum();
+
+        removeMin(root);
+        return ret;
+    }
+
+    /**
+     * 删除最小节点
+     * @param node
+     * @return
+     */
+    private Node removeMin(Node node){
+        if (node.left == null){
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+        node.left = removeMin(node.left);
+        return node;
     }
 
     /**
