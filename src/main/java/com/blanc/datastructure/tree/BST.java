@@ -152,6 +152,50 @@ public class BST<E extends Comparable<E>> {
     }
 
     /**
+     * 中序遍历 二分搜索数使用中序遍历就是得到的就是排序后的结果
+     */
+    public void inOrder(){
+        inOrder(root);
+    }
+
+    /**
+     * 以node为根进行中序遍历
+     * @param node
+     */
+    private void inOrder(Node node){
+        if (node == null){
+            return;
+        }
+        inOrder(node.left);
+        System.out.println(node.e);
+        inOrder(node.right);
+    }
+
+
+    /**
+     * 后序遍历
+     */
+    public void postOrder(){
+        postOrder(root);
+    }
+
+    /**
+     * 后序遍历
+     * @param node
+     */
+    private void postOrder(Node node){
+        if(node == null){
+            return;
+        }
+
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.println(node.e);
+    }
+
+
+
+    /**
      * 重写toString方法
      * @return
      */
