@@ -1,7 +1,10 @@
 package com.blanc.datastructure.tree;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
+import com.sun.tools.internal.xjc.generator.bean.field.NoExtendedContentField;
+import sun.security.provider.certpath.SunCertPathBuilder;
 
+import javax.sound.sampled.ReverbType;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -222,11 +225,11 @@ public class BST<E extends Comparable<E>> {
      * @return
      */
     private Node minimum(Node node){
-        //终止条件
+        //终止条件 (如果没有左节点了,说明这个node就是最小的)
         if (node.left == null){
             return node;
         }else {
-            return node.left;
+            return minimum(node.left);
         }
     }
 
@@ -247,10 +250,11 @@ public class BST<E extends Comparable<E>> {
      * @return
      */
     private Node maximum(Node node){
+        //终止条件,如果没有右边节点了,说明这个节点就是最大的
         if (node.right == null){
             return node;
         }else {
-            return node.right;
+            return maximum(node.right);
         }
     }
 
@@ -260,25 +264,117 @@ public class BST<E extends Comparable<E>> {
      */
     public E removeMin(){
         E ret = minimum();
-
-        removeMin(root);
+        root = removeMin(root);
         return ret;
     }
 
     /**
-     * 删除最小节点
+     * 删除掉以node为根的二分搜索树中的最小节点,返回删除节点后新的二分搜索树的根(因为相当于删除的'根'元素让右子树来接)
      * @param node
      * @return
      */
     private Node removeMin(Node node){
+        //终止条件,没有左孩子了,说明这个就是要删除的节点
         if (node.left == null){
+            //保存下右子树,即使右子树为null,也可以当做一种通用的右子树来处理
             Node rightNode = node.right;
+            //断开右子树
             node.right = null;
+            //减掉删除的元素
             size--;
+            //返回右子树的根节点
             return rightNode;
         }
+        //返回的是删除掉节点后的新的树
         node.left = removeMin(node.left);
         return node;
+    }
+
+    /**
+     * 删除二分搜索树中的最大元素
+     * @return E
+     */
+    public E removeMax(){
+        E ret = maximum();
+        root = removeMax(root);
+        return ret;
+    }
+
+    /**
+     * 删除以node为根节点的最大的元素
+     * @param node
+     * @return
+     */
+    private Node removeMax(Node node){
+        //终止条件,如果没有右孩子了,说明是最大的节点,说明这个node就是要删除了,保留左子树并返回给这个节点的父亲
+        if (node.right == null){
+            Node leftChild = node.left;
+            node.left = null;
+            size--;
+            return leftChild;
+        }
+        //接一下左子树
+        node.left = removeMax(node.right);
+        //返回已经做了删除操作的树
+        return node;
+    }
+
+    /**
+     * 在删除掉指定的元素e
+     * @param e
+     */
+    public void remove(E e){
+        root = remove(root,e);
+    }
+
+    /**
+     * 删除以node为根的二分搜索树中值为e的节点,递归算法(最复杂的一种操作)
+     * 返回删除后的新的二分搜索树的根
+     * @param node
+     * @param e
+     * @return
+     */
+    private Node remove(Node node , E e){
+        //如果遍历到最后都没有找到,直接返回null
+        if (node == null){
+            return null;
+        }
+        //如果小于节点,则去左子树中查找
+        if (e.compareTo(node.e) < 0){
+            node.left = remove(node.left , e);
+            return node;
+        }
+        //如果大于节点,则去右子树中查找
+        else if (e.compareTo(node.e) > 0){
+            node.right = remove(node.right , e);
+            return node;
+        }
+        //如果和当前节点相同了,说明要删除node这个节点(核心逻辑)
+        else {
+            //如果没有左子树,则直接返回右子树接一下就行了,**(重点)进来的是node,返回的是node.right或者node.left
+            if (node.left == null){
+                Node rightNode = node.right;
+                node.right = null;
+                size--;
+                return rightNode;
+            }
+            //如果没有右子树
+            else if (node.right == null) {
+                Node leftNode = node.left;
+                node.left = null;
+                size--;
+                return leftNode;
+            }
+            //如果左右孩子都有的情况下,使用hibbard删除法,选择比要删除的节点大的最小的节点进行替代
+            else {
+                //获取后继的元素,即比根节点大的最小的元素
+                Node successor = minimum(node.right);
+                successor.right = removeMin(node.right);
+                successor.left = node.left;
+                node.left = node.right = null;
+                return successor;
+            }
+        }
     }
 
     /**
