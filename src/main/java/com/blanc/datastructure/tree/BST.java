@@ -1,7 +1,6 @@
 package com.blanc.datastructure.tree;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
-import com.sun.tools.internal.xjc.generator.bean.field.NoExtendedContentField;
 import sun.security.provider.certpath.SunCertPathBuilder;
 
 import javax.sound.sampled.ReverbType;
@@ -323,8 +322,9 @@ public class BST<E extends Comparable<E>> {
      * 在删除掉指定的元素e
      * @param e
      */
-    public void remove(E e){
+    public E remove(E e){
         root = remove(root,e);
+        return e;
     }
 
     /**
