@@ -226,6 +226,21 @@ public class Array<E> {
         }
     }
 
+    /**
+     * 互相交换i和j索引元素的位置
+     * @param i
+     * @param j
+     */
+    public void swap(int i , int j){
+        if (i < 0 || i >= size || j < 0 || j >=size){
+            throw new IllegalArgumentException("illegal index , index should over zero and smaller than size");
+        }
+        //交换元素的位置
+        E t = data[i];
+        data[i] = data[j];
+        data[j] = t;
+    }
+
 
     @Override
     public String toString(){
