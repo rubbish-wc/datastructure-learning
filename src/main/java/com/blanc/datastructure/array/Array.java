@@ -26,6 +26,18 @@ public class Array<E> {
     }
 
     /**
+     * 将静态数组转换成动态数组
+     * @param arr
+     */
+    public Array(E[] arr){
+        data = (E[]) new Object[arr.length];
+        for (int i = 0 ; i < arr.length ; i++){
+            data[i] = arr[i];
+        }
+        size = arr.length;
+    }
+
+    /**
      * 不穿capacity的情况下,默认是10
      */
     public Array(){
@@ -224,6 +236,21 @@ public class Array<E> {
         if (index != -1){
             remove(index);
         }
+    }
+
+    /**
+     * 互相交换i和j索引元素的位置
+     * @param i
+     * @param j
+     */
+    public void swap(int i , int j){
+        if (i < 0 || i >= size || j < 0 || j >=size){
+            throw new IllegalArgumentException("illegal index , index should over zero and smaller than size");
+        }
+        //交换元素的位置
+        E t = data[i];
+        data[i] = data[j];
+        data[j] = t;
     }
 
 
