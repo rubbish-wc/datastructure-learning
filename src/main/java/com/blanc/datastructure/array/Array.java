@@ -26,6 +26,18 @@ public class Array<E> {
     }
 
     /**
+     * 将静态数组转换成动态数组
+     * @param arr
+     */
+    public Array(E[] arr){
+        data = (E[]) new Object[arr.length];
+        for (int i = 0 ; i < arr.length ; i++){
+            data[i] = arr[i];
+        }
+        size = arr.length;
+    }
+
+    /**
      * 不穿capacity的情况下,默认是10
      */
     public Array(){

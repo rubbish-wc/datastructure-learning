@@ -144,4 +144,33 @@ public class MaxHeap<E extends Comparable<E>> {
         }
         return data.get(0);
     }
+
+    /**
+     * 取出堆中的最大元素,并替换成元素e,logn级别
+     * @param e
+     * @return
+     */
+    public E replace(E e){
+        //保存最大元素
+        E ret = findMax();
+        //将最大元素设置成要替换的元素e,再进行siftDown
+        data.set(0,e);
+        //维护堆的性质
+        siftDown(0);
+        return ret;
+    }
+
+    /**
+     * heapify:将任意的数组转换成一个最大堆
+     * @param arr
+     */
+    public MaxHeap(E[] arr){
+        //先转换成动态数组
+        data = new Array<>(arr);
+        //进行heapify,从最后一个非叶子节点开始,便利到堆顶进行heapify操作
+        for (int i = parent(arr.length-1) ; i >= 0 ; i--){
+            siftDown(i);
+        }
+    }
+
 }
