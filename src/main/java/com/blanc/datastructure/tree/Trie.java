@@ -3,7 +3,7 @@ package com.blanc.datastructure.tree;
 import java.util.TreeMap;
 
 /**
- * 字典树的实现
+ * Trie 字典树,前缀树的实现
  * @author wangbaoliang
  */
 public class Trie {
