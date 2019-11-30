@@ -7,9 +7,9 @@ public class UnionFindQuick implements UF {
 
     private int[] id;
 
-    public UnionFindQuick(int size){
+    public UnionFindQuick(int size) {
         id = new int[size];
-        for (int i = 0 ; i < id.length ; i++){
+        for (int i = 0; i < id.length; i++) {
             id[i] = i;
         }
     }
@@ -21,6 +21,7 @@ public class UnionFindQuick implements UF {
 
     /**
      * 合并元素p和元素q所属的集合
+     *
      * @param p
      * @param q
      */
@@ -29,12 +30,12 @@ public class UnionFindQuick implements UF {
         int pId = find(p);
         int qId = find(q);
         //如果两个元素已经是同一个集合了(已经相连)
-        if (pId == qId){
+        if (pId == qId) {
             return;
         }
         //将p的集合id换成q的id
-        for (int i = 0 ; i < id.length ; i++){
-            if (id[i] == pId){
+        for (int i = 0; i < id.length; i++) {
+            if (id[i] == pId) {
                 id[i] = qId;
             }
         }
@@ -42,6 +43,7 @@ public class UnionFindQuick implements UF {
 
     /**
      * 返回元素的个数
+     *
      * @return
      */
     @Override
@@ -51,11 +53,12 @@ public class UnionFindQuick implements UF {
 
     /**
      * 查找元素p所对应的集合的编号
+     *
      * @param p
      * @return
      */
-    private int find(int p){
-        if (p < 0 || p > id.length){
+    private int find(int p) {
+        if (p < 0 || p > id.length) {
             throw new IllegalArgumentException("invalid index , p is out of bound");
         }
         return id[p];

@@ -4,6 +4,7 @@ import java.util.TreeMap;
 
 /**
  * Trie 字典树,前缀树的实现
+ *
  * @author wangbaoliang
  */
 public class Trie {
@@ -12,45 +13,46 @@ public class Trie {
 
     private int size;
 
-    private class Node{
+    private class Node {
 
         public boolean isWord;
 
-        public TreeMap<Character,Node> next;
+        public TreeMap<Character, Node> next;
 
-        public Node(boolean isWord){
+        public Node(boolean isWord) {
             this.isWord = isWord;
             next = new TreeMap<>();
         }
 
-        public Node(){
+        public Node() {
             this(false);
         }
     }
 
-    public Trie(){
+    public Trie() {
         root = new Node();
         size = 0;
     }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
     /**
      * 像trie中添加一个新的单词
+     *
      * @param word
      */
-    public void add(String word){
+    public void add(String word) {
         Node cur = root;
-        for (int i = 0 ; i < word.length() ; i++){
+        for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
-            if (cur.next.get(c) == null){
-                cur.next.put(c,new Node());
+            if (cur.next.get(c) == null) {
+                cur.next.put(c, new Node());
             }
             cur = cur.next.get(c);
         }
-        if (!cur.isWord){
+        if (!cur.isWord) {
             cur.isWord = true;
             size++;
         }
@@ -58,16 +60,17 @@ public class Trie {
 
     /**
      * 查询一个单词是否在trie中
+     *
      * @param word
      * @return
      */
-    public boolean contains(String word){
+    public boolean contains(String word) {
         Node cur = root;
-        for (int i = 0 ; i < word.length() ; i++){
+        for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
-            if (cur.next.get(c) == null){
+            if (cur.next.get(c) == null) {
                 return false;
-            }else {
+            } else {
                 cur = cur.next.get(c);
             }
         }
@@ -76,16 +79,17 @@ public class Trie {
 
     /**
      * 查询在trie中是否有单词以prefix为前缀
+     *
      * @param prefix
      * @return
      */
-    public boolean isPrefix(String prefix){
+    public boolean isPrefix(String prefix) {
         Node cur = root;
-        for (int i = 0 ; i < prefix.length() ; i++){
+        for (int i = 0; i < prefix.length(); i++) {
             char c = prefix.charAt(i);
-            if (cur.next.get(c) == null){
+            if (cur.next.get(c) == null) {
                 return false;
-            }else {
+            } else {
                 cur = cur.next.get(c);
             }
         }

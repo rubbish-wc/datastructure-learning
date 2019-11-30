@@ -4,19 +4,21 @@ import com.blanc.datastructure.heap.MaxHeap;
 
 /**
  * 基于最大堆实现的优先队列
- * @author wangbaoliang
+ *
  * @param <E>
+ * @author wangbaoliang
  */
 public class PriorityQueue<E extends Comparable<E>> implements Queue<E> {
 
     private MaxHeap<E> maxHeap;
 
-    public PriorityQueue(){
+    public PriorityQueue() {
         maxHeap = new MaxHeap<>();
     }
 
     /**
      * 入队操作
+     *
      * @param e
      */
     @Override
@@ -26,6 +28,7 @@ public class PriorityQueue<E extends Comparable<E>> implements Queue<E> {
 
     /**
      * 出队操作
+     *
      * @return
      */
     @Override
@@ -35,6 +38,7 @@ public class PriorityQueue<E extends Comparable<E>> implements Queue<E> {
 
     /**
      * 看看队首的元素
+     *
      * @return
      */
     @Override
@@ -44,6 +48,7 @@ public class PriorityQueue<E extends Comparable<E>> implements Queue<E> {
 
     /**
      * 获取优先队列的size
+     *
      * @return
      */
     @Override
@@ -53,6 +58,7 @@ public class PriorityQueue<E extends Comparable<E>> implements Queue<E> {
 
     /**
      * 判断是否为空
+     *
      * @return
      */
     @Override

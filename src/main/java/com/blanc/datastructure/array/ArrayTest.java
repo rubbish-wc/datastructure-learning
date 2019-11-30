@@ -2,17 +2,18 @@ package com.blanc.datastructure.array;
 
 /**
  * 动态数组测试类
+ *
  * @author blanc
  */
 public class ArrayTest {
     public static void main(String[] args) {
         Array<Integer> array = new Array<>(20);
-        for (int i = 0 ; i < 10 ; i++){
+        for (int i = 0; i < 10; i++) {
             array.addLast(i);
         }
         System.out.println(array);
 
-        array.add(1,100);
+        array.add(1, 100);
         System.out.println(array);
         array.addFirst(-1);
         System.out.println(array);

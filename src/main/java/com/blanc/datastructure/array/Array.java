@@ -2,6 +2,7 @@ package com.blanc.datastructure.array;
 
 /**
  * 基于java的数组封装的动态数组
+ *
  * @author blanc
  */
 public class Array<E> {
@@ -18,20 +19,22 @@ public class Array<E> {
 
     /**
      * 构造器:传入的参数是数组的容量
+     *
      * @param capacity
      */
-    public Array(int capacity){
+    public Array(int capacity) {
         this.data = (E[]) new Object[capacity];
         this.size = 0;
     }
 
     /**
      * 将静态数组转换成动态数组
+     *
      * @param arr
      */
-    public Array(E[] arr){
+    public Array(E[] arr) {
         data = (E[]) new Object[arr.length];
-        for (int i = 0 ; i < arr.length ; i++){
+        for (int i = 0; i < arr.length; i++) {
             data[i] = arr[i];
         }
         size = arr.length;
@@ -40,68 +43,74 @@ public class Array<E> {
     /**
      * 不穿capacity的情况下,默认是10
      */
-    public Array(){
+    public Array() {
         this(10);
     }
 
     /**
      * 获取数组中的元素个数
+     *
      * @return
      */
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
     /**
      * 获取数组的容量是多少
+     *
      * @return
      */
-    public int getCapacity(){
+    public int getCapacity() {
         return data.length;
     }
 
     /**
      * 判断数组是否为空
+     *
      * @return
      */
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return size == 0;
     }
 
     /**
      * 向所有元素后添加一个元素
+     *
      * @param e
      */
-    public void addLast(E e){
-        add(size,e);
+    public void addLast(E e) {
+        add(size, e);
     }
 
     /**
      * 向数组的第一位添加元素
+     *
      * @param e
      */
-    public void addFirst(E e){
-        add(0,e);
+    public void addFirst(E e) {
+        add(0, e);
     }
 
     /**
      * 在指定的位置index插入e
+     *
      * @param index
      * @param e
      */
-    public void add(int index, E e){
-        if (index < 0 || index > size){
+    public void add(int index, E e) {
+        if (index < 0 || index > size) {
             throw new IllegalArgumentException("Add failed. Require index >= 0 and index <= size");
         }
 
         //如果已经满了则resize扩容
-        if (size == data.length){
+        if (size == data.length) {
             resize(2 * data.length);
         }
 
-        for (int i = size-1 ; i >= index ; i--){
+        for (int i = size - 1; i >= index; i--) {
             //所有元素往后移动一个位置
-            data[i+1] = data[i];
+            data[i + 1] = data[i];
         }
         data[index] = e;
         size++;
@@ -109,11 +118,12 @@ public class Array<E> {
 
     /**
      * resize容量
+     *
      * @param newCapacity
      */
-    private void resize(int newCapacity){
+    private void resize(int newCapacity) {
         E[] newData = (E[]) new Object[newCapacity];
-        for (int i = 0 ; i < size ; i++){
+        for (int i = 0; i < size; i++) {
             newData[i] = data[i];
         }
         data = newData;
@@ -122,11 +132,12 @@ public class Array<E> {
 
     /**
      * 通过索引获取相应位置的元素
+     *
      * @param index
      * @return
      */
-    public E get(int index){
-        if (index < 0 || index >=size){
+    public E get(int index) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Get failed . Index is illegal");
         }
         return data[index];
@@ -134,27 +145,30 @@ public class Array<E> {
 
     /**
      * 获取最后一个元素
+     *
      * @return
      */
-    public E getLast(){
-        return get(size-1);
+    public E getLast() {
+        return get(size - 1);
     }
 
     /**
      * 获取第一个元素
+     *
      * @return
      */
-    public E getFirst(){
+    public E getFirst() {
         return get(0);
     }
 
     /**
      * 给特定的索引设定值
+     *
      * @param index
      * @param e
      */
-    public void set(int index , E e){
-        if (index < 0 || index >=size){
+    public void set(int index, E e) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Set failed , Index is illegal");
         }
         data[index] = e;
@@ -162,12 +176,13 @@ public class Array<E> {
 
     /**
      * 查找数组中是否有元素e
+     *
      * @param e
      * @return
      */
-    public boolean contains(E e){
-        for (int i = 0 ; i < size ; i++){
-            if (data[i].equals(e)){
+    public boolean contains(E e) {
+        for (int i = 0; i < size; i++) {
+            if (data[i].equals(e)) {
                 return true;
             }
         }
@@ -176,12 +191,13 @@ public class Array<E> {
 
     /**
      * 查找数组中元素e所在的索引,如果不存在元素e,则返回-1
+     *
      * @param e
      * @return
      */
-    public int find(E e){
-        for (int i = 0 ; i < size ; i++){
-            if (data[i].equals(e)){
+    public int find(E e) {
+        for (int i = 0; i < size; i++) {
+            if (data[i].equals(e)) {
                 return i;
             }
         }
@@ -190,22 +206,23 @@ public class Array<E> {
 
     /**
      * 删除特定索引的元素,返回删除的元素
+     *
      * @param index
      * @return
      */
-    public E remove(int index){
-        if (index < 0 || index >= size){
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Remove fail , Index is illegal");
         }
         //保留起来用于删除
         E ret = data[index];
-        for (int i = index + 1 ; i < size ; i++){
-            data[i-1] = data[i];
+        for (int i = index + 1; i < size; i++) {
+            data[i - 1] = data[i];
         }
         size--;
         //loitering objects 本身以及没有用了,但是强引用,垃圾回收暂时回收不了,所以这个手动设null,这个不是memoryleak;迟早也会被add方法替换掉
         data[size] = null;
-        if (size == getCapacity() / 4 && getSize() / 2 !=0){
+        if (size == getCapacity() / 4 && getSize() / 2 != 0) {
             resize(getCapacity() / 4);
         }
         return ret;
@@ -213,38 +230,42 @@ public class Array<E> {
 
     /**
      * 删除第一个元素
+     *
      * @return
      */
-    public E removeFirst(){
+    public E removeFirst() {
         return remove(0);
     }
 
     /**
      * 从数组中删除最后一个元素
+     *
      * @return
      */
-    public E removeLast(){
-        return remove(size -1);
+    public E removeLast() {
+        return remove(size - 1);
     }
 
     /**
      * 从数组中删除元素e
+     *
      * @param e
      */
-    public void removeElement(E e){
+    public void removeElement(E e) {
         int index = find(e);
-        if (index != -1){
+        if (index != -1) {
             remove(index);
         }
     }
 
     /**
      * 互相交换i和j索引元素的位置
+     *
      * @param i
      * @param j
      */
-    public void swap(int i , int j){
-        if (i < 0 || i >= size || j < 0 || j >=size){
+    public void swap(int i, int j) {
+        if (i < 0 || i >= size || j < 0 || j >= size) {
             throw new IllegalArgumentException("illegal index , index should over zero and smaller than size");
         }
         //交换元素的位置
@@ -255,15 +276,15 @@ public class Array<E> {
 
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(String.format("Array: size = %d , capacity = %d\n",size,data.length));
+        stringBuilder.append(String.format("Array: size = %d , capacity = %d\n", size, data.length));
         stringBuilder.append('[');
-        for (int i = 0 ; i < size ; i++){
+        for (int i = 0; i < size; i++) {
             stringBuilder.append(data[i]);
-            if (i != size-1){
+            if (i != size - 1) {
                 stringBuilder.append(',');
-            }else {
+            } else {
                 stringBuilder.append(']');
             }
         }

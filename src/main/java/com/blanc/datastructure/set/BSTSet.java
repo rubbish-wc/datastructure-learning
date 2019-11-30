@@ -4,6 +4,7 @@ import com.blanc.datastructure.tree.BST;
 
 /**
  * 基于二分搜索树实现的集合
+ *
  * @param <E>
  */
 public class BSTSet<E extends Comparable<E>> implements Set<E> {
@@ -13,12 +14,13 @@ public class BSTSet<E extends Comparable<E>> implements Set<E> {
      */
     private BST<E> bst;
 
-    public BSTSet(){
+    public BSTSet() {
         bst = new BST<>();
     }
 
     /**
      * 添加元素,不可添加重复的元素
+     *
      * @param e
      */
     @Override
@@ -28,6 +30,7 @@ public class BSTSet<E extends Comparable<E>> implements Set<E> {
 
     /**
      * 删除一个元素
+     *
      * @param e
      * @return
      */
@@ -38,6 +41,7 @@ public class BSTSet<E extends Comparable<E>> implements Set<E> {
 
     /**
      * 判断是否包含
+     *
      * @param e
      * @return
      */
@@ -48,6 +52,7 @@ public class BSTSet<E extends Comparable<E>> implements Set<E> {
 
     /**
      * 判断是否为空
+     *
      * @return
      */
     @Override
@@ -57,6 +62,7 @@ public class BSTSet<E extends Comparable<E>> implements Set<E> {
 
     /**
      * 获取集合的大小
+     *
      * @return
      */
     @Override

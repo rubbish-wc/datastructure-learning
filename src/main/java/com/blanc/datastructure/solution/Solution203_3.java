@@ -9,19 +9,20 @@ public class Solution203_3 {
 
     /**
      * 采用递归的方式删除链表中的元素
+     *
      * @param head
      * @param val
      * @return
      */
-    public ListNode removeElements(ListNode head , int val){
-        if (head == null){
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null) {
             return head;
         }
 
         ListNode res = removeElements(head.next, val);
-        if (head.val == val){
+        if (head.val == val) {
             return res;
-        }else {
+        } else {
             head.next = res;
             return head;
         }
