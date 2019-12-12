@@ -8,8 +8,7 @@ import com.blanc.datastructure.array.Array;
  * @param <E>
  * @author wangbaoliang
  */
-public class ArrayStack<E> implements Stack<E> {
-
+public class ArrayStack<E> implements Stack<E
     /**
      * 动态数组
      */
