@@ -27,6 +27,7 @@ public class Array<E> {
      * @param capacity
      */
     public Array(int capacity) {
+        //java 不支持直接new E[] 这样去new一个泛型数组,所以只能通过下面的方式强转一下
         this.data = (E[]) new Object[capacity];
         this.size = 0;
     }
@@ -226,8 +227,9 @@ public class Array<E> {
         size--;
         //loitering objects 本身以及没有用了,但是强引用,垃圾回收暂时回收不了,所以这个手动设null,这个不是memoryleak;迟早也会被add方法替换掉
         data[size] = null;
+        //这里为了防止复杂度的震荡,即缩容后因为满了又要去扩容,到1/4的size的时候才真的去缩容,且只缩1/2
         if (size == getCapacity() / 4 && getSize() / 2 != 0) {
-            resize(getCapacity() / 4);
+            resize(getCapacity() / 2);
         }
         return ret;
     }

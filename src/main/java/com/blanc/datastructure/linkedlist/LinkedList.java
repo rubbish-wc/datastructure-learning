@@ -2,7 +2,9 @@ package com.blanc.datastructure.linkedlist;
 
 /**
  * 链表的实现
- *
+ * 真正的动态数据结构,最简单的动态数据结构,更深入的理解指针,更深入的理解递归,辅助组成其他的数据结构
+ * 数据存储在*节点(Node)*中
+ * 优点:真正的动态结构,不需要处理固定容量的问题  确定:丧失了随机访问的能力(没有直接通过索引去访问元素的功能)
  * @param <E>
  * @author wangbaoliang
  */
@@ -20,7 +22,6 @@ public class LinkedList<E> {
 
     /**
      * 只有链表才会用到的底层成员内部类,节点,对用户屏蔽底层的实现细节
-     *
      * @author wangbaoliang
      */
     private class Node {
@@ -96,35 +97,38 @@ public class LinkedList<E> {
 
     /**
      * 在链表头添加一个新的元素
-     *
+     * 用图示的方法会更简单
      * @param e
      */
     public void addFirst(E e) {
-        Node node = new Node(e);
-        node.next = head;
-        head = node;
+        //head指向了新创建的节点,且新的node中指向了原来的head
+        head = new Node(e,head);
         size++;
     }
 
     /**
-     * 在某个元素的后面添加一个元素
+     * 在链表的'index'(0->based)位置添加新的元素e,在链表中不是很常用,练习用
+     * 因为当我们选择链表的时候,通常我们就不使用索引了
+     * 重点在于找到前驱节点
+     * @param index
+     * @param e
      */
-    public void add(int index, E e) {
+    public void insert(int index, E e) {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("Add failed , Illegal index");
         }
+        //如果在链表头添加一个元素,(因为head没有prev前驱节点),所以这里特殊处理就好
+        //特殊处理不怎么优雅,可以通过虚拟头结点,解决这个问题
         if (index == 0) {
             addFirst(e);
         } else {
             Node prev = head;
+            //prev就是index的前一个,所以从head开始,next(index-1)次就行了
             for (int i = 0; i < index - 1; i++) {
                 prev = prev.next;
             }
-
-            Node node = new Node(e);
-            node.next = prev.next;
-            prev.next = node;
-
+            prev.next = new Node(e,prev.next);
+            size++;
         }
     }
 
@@ -134,6 +138,6 @@ public class LinkedList<E> {
      * @param e
      */
     public void addLast(E e) {
-        add(size, e);
+        insert(size, e);
     }
 }

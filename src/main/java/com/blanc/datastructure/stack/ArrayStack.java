@@ -4,11 +4,10 @@ import com.blanc.datastructure.array.Array;
 
 /**
  * 栈的实现类
- *
  * @param <E>
  * @author wangbaoliang
  */
-public class ArrayStack<E> implements Stack<E
+public class ArrayStack<E> implements Stack<E>{
     /**
      * 动态数组
      */
