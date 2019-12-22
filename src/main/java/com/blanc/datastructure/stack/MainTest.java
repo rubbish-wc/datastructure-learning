@@ -33,7 +33,7 @@ public class MainTest {
      * 而对于linkedListStack,要不断的重新new一个node
      * 所以到了一个数量级,linkedListStack的耗时就会远高于ArrayStack
      * 比如10w级别,2比1快,但是到了百万,千万级别,linkedListStack就会慢的多的多的多
-     * 所以总结: 这两个stack没啥吊区别
+     * 所以总结: 这两个stack没啥吊区别,100000000太恐怖了,arrayStack 40s搞定,linkedListStack直接歇逼了
      * @param args
      */
     public static void main(String[] args) {
