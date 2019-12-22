@@ -11,9 +11,9 @@ package com.blanc.datastructure.linkedlist;
 public class LinkedList<E> {
 
     /**
-     * 链表头节点
+     * 链表头节点(升级为虚拟头结点),有了虚拟头节点,insert方法更加的方便了
      */
-    private Node head;
+    private Node dummyHead;
 
     /**
      * 链表中的数量size
@@ -73,7 +73,8 @@ public class LinkedList<E> {
      * 构造器
      */
     public LinkedList() {
-        head = null;
+        //初始化链表的时候,就已经有个节点了(虚拟头节点),但是不计入size中
+        dummyHead = new Node(null,null);
         size = 0;
     }
 
@@ -96,17 +97,6 @@ public class LinkedList<E> {
     }
 
     /**
-     * 在链表头添加一个新的元素
-     * 用图示的方法会更简单
-     * @param e
-     */
-    public void addFirst(E e) {
-        //head指向了新创建的节点,且新的node中指向了原来的head
-        head = new Node(e,head);
-        size++;
-    }
-
-    /**
      * 在链表的'index'(0->based)位置添加新的元素e,在链表中不是很常用,练习用
      * 因为当我们选择链表的时候,通常我们就不使用索引了
      * 重点在于找到前驱节点
@@ -119,17 +109,24 @@ public class LinkedList<E> {
         }
         //如果在链表头添加一个元素,(因为head没有prev前驱节点),所以这里特殊处理就好
         //特殊处理不怎么优雅,可以通过虚拟头结点,解决这个问题
-        if (index == 0) {
-            addFirst(e);
-        } else {
-            Node prev = head;
-            //prev就是index的前一个,所以从head开始,next(index-1)次就行了
-            for (int i = 0; i < index - 1; i++) {
-                prev = prev.next;
-            }
-            prev.next = new Node(e,prev.next);
-            size++;
+        Node prev = dummyHead;
+        //prev就是index的前一个,所以从head开始,next(index-1)次就行了
+        //使用了dummyhead之后,要从dummy开始,next(index)次就可以
+        for (int i = 0; i < index; i++) {
+            prev = prev.next;
         }
+        prev.next = new Node(e,prev.next);
+        size++;
+    }
+
+    /**
+     * 在链表头添加一个新的元素
+     * 用图示的方法会更简单
+     * @param e
+     */
+    public void addFirst(E e) {
+        //head指向了新创建的节点,且新的node中指向了原来的head
+        insert(0,e);
     }
 
     /**
@@ -139,5 +136,54 @@ public class LinkedList<E> {
      */
     public void addLast(E e) {
         insert(size, e);
+    }
+
+    /**
+     * 获取链表第index个元素,在链表中不是一个很常用的操作,练习用
+     * @param index
+     * @return
+     */
+    public E get(int index){
+        if (index < 0 || index >= size){
+            throw new IllegalArgumentException("get failed , illegal index");
+        }
+        Node current = dummyHead.next;
+        for (int i = 0 ; i < index ; i++){
+            current = current.next;
+        }
+        return current.e;
+    }
+
+    /**
+     * 获取链表第一个元素
+     * @return
+     */
+    public E getFirst(){
+        return get(0);
+    }
+
+    /**
+     * 获取链表最后一个元素
+     * @return
+     */
+    public E getLast(){
+        return get(size - 1);
+    }
+
+    /**
+     * 修改链表的index位置上的元素
+     * @param index
+     * @param e
+     */
+    public void set(int index,E e){
+        if (index < 0 || index >= size){
+            throw new IllegalArgumentException("set failed , illegal index");
+        }
+        //获取第0号位置上的元素开始遍历
+        Node current = dummyHead.next;
+        for (int i = 0 ; i < index ; i++){
+            current = current.next;
+        }
+        current.e = e;
     }
 }
