@@ -1,5 +1,7 @@
 package com.blanc.datastructure.linkedlist;
 
+import java.util.Random;
+
 /**
  * 链表的实现
  * 真正的动态数据结构,最简单的动态数据结构,更深入的理解指针,更深入的理解递归,辅助组成其他的数据结构
@@ -185,5 +187,70 @@ public class LinkedList<E> {
             current = current.next;
         }
         current.e = e;
+    }
+
+    /**
+     * 判断链表中是否存在元素e
+     * @param e
+     * @return
+     */
+    public boolean contains(E e){
+        Node current = dummyHead.next;
+        while (current != null){
+            if (e.equals(current.e)){
+                return true;
+            }else{
+                current = current.next;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 删除第index个元素,返回这个元素的值
+     * @param index
+     * @return
+     */
+    public E remove(int index){
+        if (index < 0 || index >= size){
+            throw new IllegalArgumentException("remove failed , illegal index");
+        }
+        Node prev = dummyHead;
+        for (int i = 0 ; i < index ; i++){
+            prev = prev.next;
+        }
+        Node delNode = prev.next;
+        prev.next = delNode.next;
+        delNode.next = null;
+        size--;
+        return delNode.e;
+    }
+
+    /**
+     * 删除第一个元素
+     * @return
+     */
+    public E removeFirst(){
+        return remove(0);
+    }
+
+    /**
+     * 删除最后一个元素
+     * @return
+     */
+    public E removeLast(){
+        return remove(size - 1);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        Node current = dummyHead.next;
+        while (current != null){
+            stringBuilder.append(current + "->");
+            current = current.next;
+        }
+        stringBuilder.append("NULL");
+        return stringBuilder.toString();
     }
 }
