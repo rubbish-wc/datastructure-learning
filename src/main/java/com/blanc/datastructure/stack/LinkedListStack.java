@@ -1,6 +1,6 @@
-package com.blanc.datastructure.linkedlist;
+package com.blanc.datastructure.stack;
 
-import com.blanc.datastructure.stack.Stack;
+import com.blanc.datastructure.linkedlist.LinkedList;
 
 /**
  * 使用链表实现的栈

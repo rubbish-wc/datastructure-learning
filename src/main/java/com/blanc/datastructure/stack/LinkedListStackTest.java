@@ -1,4 +1,4 @@
-package com.blanc.datastructure.linkedlist;
+package com.blanc.datastructure.stack;
 
 /**
  * 链表栈测试类
