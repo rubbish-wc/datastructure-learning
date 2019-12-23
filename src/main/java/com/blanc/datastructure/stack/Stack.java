@@ -1,8 +1,12 @@
 package com.blanc.datastructure.stack;
 
+import java.util.Random;
+
 /**
  * 栈接口
- *
+ * 栈是一种后进先出的数据结构
+ * List In First Out (LIFO)
+ * 在计算机的世界里,栈有着不可思议的应用
  * @author wangbaoliang
  */
 public interface Stack<E> {
