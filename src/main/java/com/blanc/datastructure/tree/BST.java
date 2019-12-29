@@ -6,15 +6,41 @@ import java.util.Queue;
 import java.util.Stack;
 
 /**
- * 二分搜索树
- *
+ * 二分搜索树(查询效率高的一笔)
+ * 二叉树具有天然的递归结构,链表比较简单,还是可以用循环处理一下的,但是树的递归写法比循环写法牛逼多了
+ * 每个节点的左子树,右子树也是二叉树,满足递归将一个问题拆分成更小规模的问题
+ * "满二叉树":每一个节点除了叶子节点外所有的节点都有左孩子和右孩子,二叉树不一定是"满的"
+ * 二分搜索树是二叉树,二分搜索树的每个节点的值:都大于其左子树所有节点的值,小于其右子树的所有节点的值
+ * 二分搜索树的每一个子树也都是二分搜索树
+ * 二分搜索树存储的元素必须有可比较性,不然也就没法高效查找了
+ * 二分搜索树重复的元素直接不做任何处理,即二分搜索树不包含重复的元素,因为其语义是必须要区分大小的
  * @param <E>
  * @author wangbaoliang
  */
 public class BST<E extends Comparable<E>> {
 
     /**
+     * 树根
+     */
+    private Node root;
+
+    /**
+     * 元素的数量
+     */
+    private int size;
+
+    /**
+     * 构造函数
+     * 跟节点为null,size是0
+     */
+    public BST() {
+        root = null;
+        size = 0;
+    }
+
+    /**
      * 私有内部类,Node
+     * 包含一个元素,两个孩子
      */
     private class Node {
 
@@ -41,21 +67,6 @@ public class BST<E extends Comparable<E>> {
     }
 
     /**
-     * 树根
-     */
-    private Node root;
-
-    /**
-     * 元素的数量
-     */
-    private int size;
-
-    public BST() {
-        root = null;
-        size = 0;
-    }
-
-    /**
      * 判断元素的个数
      *
      * @return
@@ -79,41 +90,26 @@ public class BST<E extends Comparable<E>> {
      * @param e
      */
     public void add(E e) {
-        //如果根节点为null,则直接添加
-        if (root == null) {
-            root = new Node(e);
-            size++;
-        } else {
-            add(root, e);
-        }
+        add(root,e);
     }
 
     /**
      * 私有递归函数,像以node为根的二分搜索树中添加元素,递归算法
-     *
+     * 返回插入新节点后二分搜索树的根
      * @param node
      * @param e
      */
-    private void add(Node node, E e) {
+    private Node add(Node node, E e) {
         //1 递归终止的条件 1)相等(二分搜索树要求数据不重复) 2)小于这个根节点则插入到左子树中,并且左子树中没有元素了 3)大于这个根节点则插入到右子树中,并且这个右子树没有元素了
-        if (e.equals(node.e)) {
-            return;
-        } else if (e.compareTo(node.e) < 0 && node.left == null) {
-            node.left = new Node(e);
-            size++;
-            return;
-        } else if (e.compareTo(node.e) > 0 && node.right == null) {
-            node.right = new Node(e);
-            size++;
-            return;
+        if (node == null){
+            return new Node(e);
         }
-
-        //不满足终止条件则继续调用
-        if (e.compareTo(node.e) < 0) {
-            add(node.left, e);
-        } else if (e.compareTo(node.e) > 0) {
-            add(node.right, e);
+        if (e.compareTo(node.e) < 0 ){
+            node.left = add(node.left,e);
+        } else if (e.compareTo(node.e) > 0){
+            node.right = add(node.right,e);
         }
+        return node;
     }
 
     /**
@@ -422,7 +418,7 @@ public class BST<E extends Comparable<E>> {
         postOrder(root);
     }
 
-    /**
+    /**cdx
      * 后序遍历
      *
      * @param node
