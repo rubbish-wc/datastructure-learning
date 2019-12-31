@@ -226,6 +226,34 @@ public class LinkedList<E> {
     }
 
     /**
+     * 删除链表中的元素e
+     * @param e
+     */
+    public void removeElement(E e){
+        //从head节点开始做删除操作
+        dummyHead.next = remove(dummyHead.next,e);
+    }
+
+    /**
+     * 删除子链表一个元素并返回他的下一个元素,这个node是前驱prev节点
+     * @param e
+     * @param node
+     * @return
+     */
+    private Node remove(Node node,E e){
+        //终止条件,head为空,说明已经是最后一个了
+        if (node == null){
+          return null;
+        }
+        //递推公式:删除一个更小的列表节点
+        if (e.equals(node.e)){
+            return remove(node.next,e);
+        }
+        node.next = remove(node.next,e);
+        return node;
+    }
+
+    /**
      * 删除第一个元素
      * @return
      */

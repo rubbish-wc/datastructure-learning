@@ -7,13 +7,8 @@ public class LinkedTest {
         for (int i = 0 ; i < 5 ; i++){
             linkedList.addFirst(i);
         }
-        linkedList.insert(3,666);
-        System.out.println(linkedList);
-        linkedList.remove(2);
-        System.out.println(linkedList);
-        linkedList.removeFirst();
-        System.out.println(linkedList);
-        linkedList.removeLast();
+        linkedList.addFirst(2);
+        linkedList.removeElement(2);
         System.out.println(linkedList);
     }
 }

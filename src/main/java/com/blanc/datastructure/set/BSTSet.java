@@ -4,7 +4,7 @@ import com.blanc.datastructure.tree.BST;
 
 /**
  * 基于二分搜索树实现的集合
- *
+ * 集合的典型应用:客户统计,词汇量统计
  * @param <E>
  */
 public class BSTSet<E extends Comparable<E>> implements Set<E> {
