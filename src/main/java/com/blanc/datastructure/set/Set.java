@@ -7,6 +7,7 @@ package com.blanc.datastructure.set;
  * 有序集合和无序集合
  * 有序集合中的元素具有顺序性:可以从小到大排序,比如bstSet,基本有序集合都是基于搜索树实现的
  * 无序集合中的元素没有顺序性:不能轻易的从小到大排序,比如linkedListSet,基于链表或者基于哈希表实现
+ * 多重集合:集合中的元素可以重复,不讨论了,了解一下就行了
  * @param <E>
  */
 public interface Set<E> {
