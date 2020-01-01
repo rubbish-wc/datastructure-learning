@@ -6,6 +6,7 @@ package com.blanc.datastructure.map;
  * @param <K>
  * @param <V>
  * 根据键(KEY),寻找值(VALUE)
+ * 在map中,key必须是唯一的,不能有重复值
  * 非常容易的使用链表或者二分搜索树实现
  */
 public interface Map<K,V> {
