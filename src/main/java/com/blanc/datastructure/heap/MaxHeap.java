@@ -4,12 +4,19 @@ import com.blanc.datastructure.array.Array;
 
 /**
  * 最大堆实现(动态数据实现 从索引0开始)
- *
+ * 重点在于搞清楚父子节点之间的索引关系
+ * 堆是完全二叉树(即一层一层的去排列),这样子可以在不浪费数组容量的情况下用数组去存储这个堆
+ * 最大堆的每一个父亲节点总是大于他的孩子节点
+ * 例: 如何求100w中的数字的最大值,或者从大到小排序? 用最大堆即可,不断地extractMax即可,堆排序大概就是这样
+ * 完全二叉树和普通的二叉树不一样,是不会退化成链表的,所以时间复杂度很稳定,都是logn
  * @param <E>
  * @author wangbaoliang
  */
 public class MaxHeap<E extends Comparable<E>> {
 
+    /**
+     * 最大堆使用数组来存储
+     */
     private Array<E> data;
 
     public MaxHeap(int capacity) {
@@ -40,7 +47,7 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 返回完全二叉树的数组表示中,一个索引所表示的元素的父亲节点的索引
-     *
+     * 第一个元素从0开始,楞吗,直接从1开始不是更方便用来计算么
      * @param index
      * @return
      */
@@ -48,6 +55,7 @@ public class MaxHeap<E extends Comparable<E>> {
         if (index == 0) {
             throw new IllegalArgumentException("index-0 doesn't have parent");
         }
+        //求父节点的索引公式
         return (index - 1) / 2;
     }
 
@@ -80,14 +88,14 @@ public class MaxHeap<E extends Comparable<E>> {
     public void add(E e) {
         //先向数组尾添加元素
         data.addLast(e);
-        //只是添加了还不够,还需要满足堆的性质,所以这个做个函数去处理
+        //只是添加了还不够,还需要满足堆的性质,所以这个做个函数去处理,叫做上浮
         siftUp(data.getSize() - 1);
 
     }
 
     /**
      * 向堆中添加元素
-     *
+     * 需要做siftup的元素的索引,数组的最后一个元素
      * @param k
      */
     private void siftUp(int k) {
@@ -118,12 +126,12 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 保持堆的属性,将堆顶的元素(不满足最大的性质进行下沉到正确的位置)
-     *
+     * 从索引0开始
      * @return
      */
     private void siftDown(int k) {
         //最极端的情况,左孩子都已经数组越界了,说明一定是没有孩子了(左孩子索引一定是比右孩子小的)
-        while (leftChild(k) >= data.getSize()) {
+        while (leftChild(k) < data.getSize()) {
             //先保存左孩子的索引
             int j = leftChild(k);
             //如果有右孩子,且右孩子比左孩子要大
@@ -158,7 +166,7 @@ public class MaxHeap<E extends Comparable<E>> {
 
     /**
      * 取出堆中的最大元素,并替换成元素e,logn级别
-     *
+     * 注意不是替换任意元素,而是最大的元素
      * @param e
      * @return
      */
@@ -173,8 +181,14 @@ public class MaxHeap<E extends Comparable<E>> {
     }
 
     /**
-     * heapify:将任意的数组转换成一个最大堆
+     * 构造函数,将数组自动转换成一最大堆
+     * heapify:将任意的数组转换成一个堆的形状,比如最大堆
+     * 从倒数第一个非叶子节点开始,siftdown就行了,why?
+     * 关键在于如何定位倒数第一个非叶子节点
+     * 怎么做,可以找到最后一个索引,然后求他的父亲节点,这个父亲节点就是整个堆的倒数第一个非叶子节点
      *
+     * 将n个元素逐个插入到一个空堆中,算法复杂度是O(nlogn)
+     * heaplify的过程,算法复杂度是O(n),课程中没有进行解释,比较复杂,自己有个印象就行了
      * @param arr
      */
     public MaxHeap(E[] arr) {

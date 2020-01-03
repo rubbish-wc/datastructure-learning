@@ -8,6 +8,9 @@ package com.blanc.datastructure.map;
  * 根据键(KEY),寻找值(VALUE)
  * 在map中,key必须是唯一的,不能有重复值
  * 非常容易的使用链表或者二分搜索树实现
+ * 有序映射,基于搜索树实现
+ * 无序映射,基于哈希表实现(基于链表实在是太慢了)
+ * 其实集合就是只看key的映射,包装下映射,就是集合了
  */
 public interface Map<K,V> {
 
