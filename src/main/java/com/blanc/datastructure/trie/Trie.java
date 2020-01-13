@@ -3,7 +3,7 @@ package com.blanc.datastructure.trie;
 import java.util.TreeMap;
 
 /**
- * Trie 字典树,前缀树的实现
+ * Trie 字典树,前缀树(前缀搜索)的实现
  * 多叉树,微软的通讯录问题
  * 查询每一个条目的时间复杂度,和字典中一共有多少条目无关,时间复杂度为O(w),w为查询单词的长度!,对于绝大多数的单词,长度都是小于10的
  * trie: 比如每一个节点(有能力)有26个指向下个节点的指针,a-z26个英文字母,不考虑大小写,不考虑特殊字符,阳春版本
@@ -113,7 +113,6 @@ public class Trie {
 
     /**
      * 查询在trie中是否有单词以prefix为前缀
-     *
      * @param prefix
      * @return
      */
