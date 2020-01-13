@@ -8,12 +8,19 @@ import java.util.TreeMap;
  * 查询每一个条目的时间复杂度,和字典中一共有多少条目无关,时间复杂度为O(w),w为查询单词的长度!,对于绝大多数的单词,长度都是小于10的
  * trie: 比如每一个节点(有能力)有26个指向下个节点的指针,a-z26个英文字母,不考虑大小写,不考虑特殊字符,阳春版本
  * 其实应该是每个节点有若干个指向下个节点的指针
+ * Trie不是泛型类,假设每一个存储的元素都是character大小的字符.比如如果是汉语就不行,因为单个汉字有的大于character
  * @author wangbaoliang
  */
 public class Trie {
 
+    /**
+     * 整个trie的根节点
+     */
     private Node root;
 
+    /**
+     * 总共存储的单词的数量
+     */
     private int size;
 
     /**
@@ -49,18 +56,25 @@ public class Trie {
         }
     }
 
+    /**
+     * 构造函数
+     */
     public Trie() {
         root = new Node();
         size = 0;
     }
 
+    /**
+     * 获取大小
+     * @return
+     */
     public int getSize() {
         return size;
     }
 
     /**
-     * 像trie中添加一个新的单词
-     *
+     * 向trie中添加一个新的单词
+     * 非递归写法
      * @param word
      */
     public void add(String word) {
@@ -80,7 +94,7 @@ public class Trie {
 
     /**
      * 查询一个单词是否在trie中
-     *
+     * 如果发现了next的map中没有这个字符,就说明不包含,或者是到最后一个字符,但是isWord是false,都说明不包含
      * @param word
      * @return
      */
