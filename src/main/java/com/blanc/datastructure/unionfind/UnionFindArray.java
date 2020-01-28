@@ -3,6 +3,7 @@ package com.blanc.datastructure.unionfind;
 /**
  * 第一版并查集
  * 只是用数组模拟了一下并查集的思想
+ * 对于查找而言是非常快的O(1),但是对于合并是非常慢的O(n)
  */
 public class UnionFindArray implements UF {
 
