@@ -6,6 +6,7 @@ package com.blanc.datastructure.unionfind;
  * 而是深度低的往深度高的树上合并
  * 这种更为合理,基于rank的合并
  * 不在find而是使用递归的方式直接进行路径的压缩
+ * 实际上这个递归实现的路径压缩比在find中单词路径压缩要更慢一点
  */
 public class UnionFindOpByRankAndFinalPathCompress implements UF {
 
