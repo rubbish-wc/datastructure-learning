@@ -53,7 +53,7 @@ public class UnionFindQuick implements UF {
 
     /**
      * 查找元素p所对应的集合的编号
-     *
+     * O(1):数组随机查询
      * @param p
      * @return
      */
