@@ -2,9 +2,9 @@ package com.blanc.datastructure.unionfind;
 
 /**
  * 第一版并查集
- *
+ * 只是用数组模拟了一下并查集的思想
  */
-public class UnionFind1 implements UF {
+public class UnionFindArray implements UF {
 
     /**
      * 存储每一个元素的编号
@@ -15,7 +15,7 @@ public class UnionFind1 implements UF {
      * 构造函数
      * @param size
      */
-    public UnionFind1(int size){
+    public UnionFindArray(int size){
         id = new int[size];
         //每个元素所属的集合编号都是自己,即每个元素都是不相连的
         for (int i = 0 ; i<id.length;i++){
