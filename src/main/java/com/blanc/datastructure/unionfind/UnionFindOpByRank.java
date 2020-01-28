@@ -80,6 +80,8 @@ public class UnionFindOpByRank implements UF {
             throw new IllegalArgumentException("p is out of bound");
         }
         while (p != parent[p]){
+            //路径压缩:只需要这一行代码
+            parent[p] = parent[parent[p]];
             p = parent[p];
         }
         return p;
