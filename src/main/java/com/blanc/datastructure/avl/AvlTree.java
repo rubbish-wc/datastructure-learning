@@ -1,35 +1,95 @@
-package com.blanc.datastructure.map;
+package com.blanc.datastructure.avl;
+
+import com.blanc.datastructure.map.Map;
 
 /**
- * 基于二分搜索树实现的Map
+ * AVL二分搜索树映射
+ * 平衡二叉树,左右子树的高度差不超过1,即平衡因子不超过1
  * @param <K>
  * @param <V>
  */
-public class BSTMap<K extends Comparable<K>, V> implements Map<K , V> {
+public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
 
+    /**
+     * 根节点
+     */
     private Node root;
 
+    /**
+     * 节点树
+     */
     private int size;
 
-    public BSTMap(){
+    /**
+     * 构造函数
+     */
+    public AvlTree(){
         root = null;
         size = 0;
     }
 
-
+    /**
+     * 节点
+     */
     private class Node{
 
+        /**
+         * 映射的key
+         */
         public K key;
 
+        /**
+         * 映射的value
+         */
         public V value;
 
+        /**
+         * avl重点:这个节点的高度值
+         */
+        public int height;
+
+        /**
+         * 左右孩子
+         */
         public Node left,right;
 
+        /**
+         * 节点构造函数,初始化高度为1,因为用到构造函数说明在添加节点
+         * 而添加一个节点一定是叶子节点,叶子节点的高度一定是定义为1的
+         * @param key
+         * @param value
+         */
         public Node(K key , V value){
             this.key = key;
             this.value = value;
             this.left = null;
             this.right = null;
+            this.height = 1;
+        }
+    }
+
+    /**
+     * 辅助函数:获取一个节点的高度值
+     * @param node
+     * @return
+     */
+    private int getHeight(Node node){
+        if (node == null){
+            return 0;
+        }
+        return node.height;
+    }
+
+    /**
+     * 获取node节点的平衡因子
+     * @param node
+     * @return
+     */
+    private int getBalanceFactor(Node node){
+        if (node == null){
+            return 0;
+        }else {
+            return getHeight(node.left) - getHeight(node.right);
         }
     }
 
@@ -57,6 +117,14 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K , V> {
             node.right = add(node.right,key,value);
         }else {
             node.value = value;
+        }
+        //重点,更新height
+        node.height = 1 + Math.max(getHeight(node.left),getHeight(node.right));
+        //计算平衡因子
+        int balanceFactor = getBalanceFactor(node);
+        //如果平衡因子大于1,说明不是一个平衡二叉树
+        if (Math.abs(balanceFactor) > 1){
+            System.out.println("unbalanced:" + balanceFactor);
         }
         return node;
     }
