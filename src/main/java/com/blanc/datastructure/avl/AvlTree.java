@@ -2,6 +2,8 @@ package com.blanc.datastructure.avl;
 
 import com.blanc.datastructure.map.Map;
 
+import java.util.ArrayList;
+
 /**
  * AVL二分搜索树映射
  * 平衡二叉树,左右子树的高度差不超过1,即平衡因子不超过1
@@ -176,6 +178,36 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
             node.left = node.right = null;
             return successor;
         }
+    }
+
+    /**
+     * 判断该二叉树是否是一颗二分搜索树
+     * 原理:二分搜索树的中序遍历得到的结果是升序的,如果不是,则有问题
+     * @return
+     */
+    public boolean isBST(){
+        ArrayList<K> keys = new ArrayList<>();
+        inOrder(root,keys);
+        for (int i = 1 ; i < keys.size() ; i++){
+            if (keys.get(i-1).compareTo(keys.get(i)) > 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 中序遍历一个根节点为node的元素
+     * @param node
+     * @param keys
+     */
+    private void inOrder(Node node,ArrayList<K> keys){
+        if (node == null){
+            return;
+        }
+        inOrder(node.left,keys);
+        keys.add(node.key);
+        inOrder(node.right,keys);
     }
 
     @Override
