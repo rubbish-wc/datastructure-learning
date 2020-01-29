@@ -181,7 +181,7 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
     }
 
     /**
-     * 判断该二叉树是否是一颗二分搜索树
+     * 辅助函数判断该二叉树是否是一颗二分搜索树
      * 原理:二分搜索树的中序遍历得到的结果是升序的,如果不是,则有问题
      * @return
      */
@@ -195,6 +195,34 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         }
         return true;
     }
+
+    /**
+     * 辅助函数:判断是不是一个平衡二叉树
+     * 原理:每一个节点的左右子树的高度差不能大于1
+     * @return
+     */
+    public boolean isBalanced(){
+        return isBalanced(root);
+    }
+
+    /**
+     * 判断以node为根节点的二叉树是否是一棵平衡二叉树
+     * @param node
+     * @return
+     */
+    private boolean isBalanced(Node node){
+        if (node == null){
+            return true;
+        }
+        int balanceFactor = getBalanceFactor(node);
+        if (Math.abs(balanceFactor) > 1){
+            return false;
+        }else {
+            return isBalanced(node.left) && isBalanced(node.right);
+        }
+    }
+
+
 
     /**
      * 中序遍历一个根节点为node的元素
