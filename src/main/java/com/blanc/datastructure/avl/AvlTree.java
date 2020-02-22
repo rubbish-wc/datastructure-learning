@@ -7,6 +7,7 @@ import java.util.ArrayList;
 /**
  * AVL二分搜索树映射
  * 平衡二叉树,左右子树的高度差不超过1,即平衡因子不超过1
+ * 在什么时候维护平衡:加入节点后,沿着节点向上维护平衡性
  * @param <K>
  * @param <V>
  */
@@ -127,6 +128,7 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         //如果平衡因子大于1,说明不是一个平衡二叉树
         if (Math.abs(balanceFactor) > 1){
             System.out.println("unbalanced:" + balanceFactor);
+            //此处维护平衡性
         }
         return node;
     }
@@ -221,8 +223,6 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
             return isBalanced(node.left) && isBalanced(node.right);
         }
     }
-
-
 
     /**
      * 中序遍历一个根节点为node的元素
