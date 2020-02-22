@@ -94,6 +94,7 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
 
     /**
      * 获取node节点的平衡因子
+     * 终于知道这个平衡因子为什么不直接取绝对值了,因为要用来给左右旋转的依据做准备
      * @param node
      * @return
      */
@@ -101,7 +102,7 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         if (node == null){
             return 0;
         }else {
-            return Math.abs(getHeight(node.left) - getHeight(node.right));
+            return getHeight(node.left) - getHeight(node.right);
         }
     }
 
@@ -138,9 +139,57 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         //如果平衡因子大于1,说明不是一个平衡二叉树
         if (balanceFactor > 1){
             System.out.println("unbalanced:" + balanceFactor);
-            //此处维护平衡性
+            //重点就在于这个地方怎么维护平衡性,判断是否需要维护平衡的条件至关重要
+            //1, 如果此node的平衡因子大于1(不平衡),且左子树的平衡因子>=0,说明是左边不平衡
+            if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0){
+                return rightRotate(node);
+            }
+            if (balanceFactor < -1 && getBalanceFactor(node.left) <= 0){
+                return leftRotate(node);
+            }
+            //2, 如果此node的平衡因子
         }
         return node;
+    }
+
+    /**
+     * 右旋转
+     * @param y 不满足平衡性的节点
+     * @return 旋转后满足了平衡性的新的节点
+     *                y                            x
+     *              /  \                         /   \
+     *             x   T4         向右旋转       z     y
+     *            / \       --------------->  / \    / \
+     *           z  T3                       T1  T2 T3 T4
+     *          / \
+     *        T1  T2
+     */
+    private Node rightRotate(Node y){
+        //按图取后面要用到的节点
+        Node x = y.left;
+        Node T3 = x.right;
+        //向右旋转过程
+        x.right = y ;
+        y.left = T3;
+        //更新height值,先更新y,再更新x,因为旋转后,x的高度值依赖y的高度值
+        y.height = Math.max(getHeight(y.left),getHeight(y.right)) + 1;
+        x.height = Math.max(getHeight(x.left),getHeight(x.right)) + 1;
+        return x;
+    }
+
+    /**
+     * 左旋转
+     * @param y
+     * @return
+     */
+    private Node leftRotate(Node y){
+        Node x = y.right;
+        Node T2 = x.left;
+        x.left = y;
+        y.right = T2;
+        y.height = Math.max(getHeight(y.left),getHeight(y.right)) + 1;
+        x.height = Math.max(getHeight(x.left),getHeight(x.right)) + 1;
+        return x;
     }
 
     @Override
