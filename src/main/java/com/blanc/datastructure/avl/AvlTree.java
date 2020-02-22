@@ -2,6 +2,7 @@ package com.blanc.datastructure.avl;
 
 import com.blanc.datastructure.map.Map;
 
+import java.time.Year;
 import java.util.ArrayList;
 
 /**
@@ -137,17 +138,32 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         //重点,计算平衡因子
         int balanceFactor = getBalanceFactor(node);
         //如果平衡因子大于1,说明不是一个平衡二叉树
-        if (balanceFactor > 1){
+        if (Math.abs(balanceFactor) > 1){
             System.out.println("unbalanced:" + balanceFactor);
             //重点就在于这个地方怎么维护平衡性,判断是否需要维护平衡的条件至关重要
-            //1, 如果此node的平衡因子大于1(不平衡),且左子树的平衡因子>=0,说明是左边不平衡
+            //1:LL 如果此node的平衡因子大于1(左侧不平衡),且左子树的平衡因子>=0
             if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0){
                 return rightRotate(node);
             }
+            //2:LR
+            if (balanceFactor > 1 && getBalanceFactor(node.left) < 0){
+                //2.1 对左孩子进行一次左旋转变成LL
+                node.left = leftRotate(node.left);
+                //2.2 对当前节点右旋转
+                return leftRotate(node);
+            }
+            //2:RR 如果此node的平衡因子小于-1(右侧不平衡),且右子树的平衡因子<=0
             if (balanceFactor < -1 && getBalanceFactor(node.left) <= 0){
                 return leftRotate(node);
             }
-            //2, 如果此node的平衡因子
+            //4:RL
+            if (balanceFactor < -1 && getBalanceFactor(node.right) > 0){
+                //对右孩子先进行一次右旋转变成RR
+                node.right = leftRotate(node.right);
+                //对当前节点进行左旋转
+                return  leftRotate(node);
+            }
+
         }
         return node;
     }
