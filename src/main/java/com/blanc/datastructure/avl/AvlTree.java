@@ -6,7 +6,13 @@ import java.util.ArrayList;
 
 /**
  * AVL二分搜索树映射
- * 平衡二叉树,左右子树的高度差不超过1,即平衡因子不超过1
+ * 最为经典的平衡二叉树(Adelson-Velsky 和 Landis 两个人的名字)
+ * 最早的自平衡二分搜索树结构
+ * 什么是平衡二叉树?
+ * 平衡二叉树,对于任意一个节点,左右子树的高度差不超过1,即平衡因子不超过1(平衡因子:指一个节点的左右子树的高度差,|左height-右height\),这个平衡二叉树看起来可能不这么平衡
+ * 平衡二叉树的高度和节点数量之间的关系也是O(logN)的
+ * 满二叉树(除了叶子节点,所有的其他节点都有两个子树)一定是一个平衡二叉树
+ * 完全二叉树:(个人理解) 除了最深的一层外,其余层都铺满,且最后一层按照从左到右不间断排列开.完全二叉树是平衡二叉树,因为整个树的高度查不会大于1,我认为最无聊的线段树也是一个平衡二叉树
  * 在什么时候维护平衡:加入节点后,沿着节点向上维护平衡性
  * @param <K>
  * @param <V>
@@ -47,7 +53,9 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         public V value;
 
         /**
+         * 标注节点的高度
          * avl重点:这个节点的高度值
+         * 这个高度不是整体来看的,以每个叶子节点为开始标注高度1,一个非叶子节点的高度是他孩子节点中高度最高的节点的高度+1
          */
         public int height;
 
@@ -77,6 +85,7 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
      * @return
      */
     private int getHeight(Node node){
+        //如果一个node本身是null的话,它的高度算为0
         if (node == null){
             return 0;
         }
@@ -92,7 +101,7 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         if (node == null){
             return 0;
         }else {
-            return getHeight(node.left) - getHeight(node.right);
+            return Math.abs(getHeight(node.left) - getHeight(node.right));
         }
     }
 
@@ -119,14 +128,15 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         }else if(key.compareTo(node.key) > 0){
             node.right = add(node.right,key,value);
         }else {
+            //如果相等了,更新value值
             node.value = value;
         }
         //重点,更新height
         node.height = 1 + Math.max(getHeight(node.left),getHeight(node.right));
-        //计算平衡因子
+        //重点,计算平衡因子
         int balanceFactor = getBalanceFactor(node);
         //如果平衡因子大于1,说明不是一个平衡二叉树
-        if (Math.abs(balanceFactor) > 1){
+        if (balanceFactor > 1){
             System.out.println("unbalanced:" + balanceFactor);
             //此处维护平衡性
         }
