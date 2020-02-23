@@ -2,7 +2,6 @@ package com.blanc.datastructure.avl;
 
 import com.blanc.datastructure.map.Map;
 
-import java.time.Year;
 import java.util.ArrayList;
 
 /**
@@ -113,6 +112,90 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
     }
 
     /**
+     * AVL数的删除
+     * @param key
+     * @return
+     */
+    @Override
+    public V remove(K key) {
+        return null;
+    }
+
+    /**
+     * 辅助函数:删除AVL中以Node为根的树中的一个节点
+     * @param node 根节点
+     * @param key 要删除的K
+     * @return
+     */
+    private Node remove(Node node, K key){
+        //递归终止条件,到底了,说明没得删了
+        if (node == null){
+            return null;
+        }
+        //删除以后,我们需要返回的新的ret的节点
+        Node retNode;
+        //如果要删除的元素比根节点要小,则往左子树中删除
+        if (node.key.compareTo(key) > 0){
+            node.left = remove(node.left,key);
+            retNode = node;
+        }else if (node.key.compareTo(key) < 0){
+            node.right = remove(node.right,key);
+            retNode = node;
+        }else {//这个节点就是要删除的节点的话
+            if (node.left == null){
+                Node rightNode = node.right;
+                node.right = null;
+                size--;
+                retNode = rightNode;
+            }
+            if (node.right == null){
+                Node leftNode = node.left;
+                node.left = null;
+                size--;
+                retNode = leftNode;
+            }
+            //如果左右子树都不为空的情况,找到比待删除节点大的最小的节点,用这个节点顶替待删除节点的位置
+            Node successor = minimum(node.right);
+            //因为remove操作也要维护自平衡,所以这里和二分搜索树的removeMin不同,要使用有自平衡的删除方式
+            successor.right = remove(node.right,successor.key);
+            successor.left = node.left;
+            //断掉
+            node.left = node.right = null;
+            retNode = successor;
+        }
+        //边界情况,如果删了的本身就是一个叶子节点,那么返回的可能是个null,后面会空指针
+        if (retNode == null){
+            return null;
+        }
+        //关键,要判断维护ret节点的平衡
+        //1 计算retNode的高度值,左右子树的最大高度 + 1;
+        retNode.height = Math.max(getHeight(retNode.left),getHeight(retNode.right)) + 1;
+        //2 计算平衡因子
+        int balanceFactor = getBalanceFactor(retNode);
+        //3 开始旋转
+        //LL
+        if (balanceFactor > 1 && getBalanceFactor(retNode.left) >= 0){
+            return rightRotate(retNode);
+        }
+        //LR
+        if (balanceFactor > 1 && getBalanceFactor(retNode.left) < 0){
+            //1 先对x进行左旋转,你要在脑海中想象出来这个场景,不行就画图
+            retNode.left = leftRotate(node.left);
+            return rightRotate(retNode);
+        }
+        //RR
+        if (balanceFactor < -1 && getBalanceFactor(retNode.right) <= 0){
+            return leftRotate(retNode);
+        }
+        //RL
+        if (balanceFactor < -1 && getBalanceFactor(retNode.right) > 0){
+            retNode.right = rightRotate(node.right);
+            return leftRotate(retNode);
+        }
+        return retNode;
+    }
+
+    /**
      * 向根为root的子树中添加元素
      * @param node
      * @param key
@@ -172,11 +255,11 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
      * 右旋转
      * @param y 不满足平衡性的节点
      * @return 旋转后满足了平衡性的新的节点
-     *                y                            x
-     *              /  \                         /   \
-     *             x   T4         向右旋转       z     y
-     *            / \       --------------->  / \    / \
-     *           z  T3                       T1  T2 T3 T4
+     *                y                              x
+     *              /  \                           /   \
+     *             x   T4         向右旋转         z     y
+     *            / \       --------------->    / \    / \
+     *           z  T3                         T1  T2 T3 T4
      *          / \
      *        T1  T2
      */
@@ -208,54 +291,6 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
         return x;
     }
 
-    @Override
-    public V remove(K key) {
-        Node node = getNode(root,key);
-        if (node != null){
-            root = remove(root,key);
-            return node.value;
-        }else {
-            return null;
-        }
-    }
-
-    /**
-     * 删除以node为根节点的二分搜索树中的key
-     * @param node
-     * @param key
-     * @return
-     */
-    private Node remove(Node node , K key){
-        //如果递归到底,肯定是没有找到
-        if (node == null){
-            return null;
-        }
-        if (key.compareTo(node.key) < 0){
-            node.left = remove(node.left,key);
-            return node;
-        }else if (key.compareTo(node.key) > 0){
-            node.right = remove(node.right,key);
-            return node;
-        }else {
-            if (node.left == null){
-                Node rightNode = node.right;
-                node.right = null;
-                size--;
-                return rightNode;
-            }
-            if (node.right == null){
-                Node leftNode = node.left;
-                node.left = null;
-                size--;
-                return leftNode;
-            }
-            Node successor = minimum(node.right);
-            successor.right = removeMin(node.right);
-            successor.left = node.left;
-            node.left = node.right = null;
-            return successor;
-        }
-    }
 
     /**
      * 辅助函数判断该二叉树是否是一颗二分搜索树
