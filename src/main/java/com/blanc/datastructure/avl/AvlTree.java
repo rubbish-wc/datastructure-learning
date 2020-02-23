@@ -112,12 +112,17 @@ public class AvlTree<K extends Comparable<K>, V> implements Map<K , V> {
     }
 
     /**
-     * AVL数的删除
+     * AVL树的删除
      * @param key
      * @return
      */
     @Override
     public V remove(K key) {
+        Node node = getNode(root, key);
+        if (node != null){
+            root = remove(root, key);
+            return node.value;
+        }
         return null;
     }
 
