@@ -1,10 +1,6 @@
 package com.blanc.datastructure.rbtree;
 
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-
 /**
  * 红黑树
  * 1 每个节点是红色的或者黑色的
