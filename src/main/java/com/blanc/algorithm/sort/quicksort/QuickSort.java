@@ -1,4 +1,4 @@
-package com.blanc.algorithm.sort;
+package com.blanc.algorithm.sort.quicksort;
 
 import java.util.zip.Inflater;
 
